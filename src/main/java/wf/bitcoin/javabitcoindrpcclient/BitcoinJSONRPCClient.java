@@ -1143,13 +1143,6 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
 
     TransactionWrapper tx = new TransactionWrapper((Map<String, ?>) query("gettransaction", txId));
 
-    // [#88] Request for invalid Tx should fail
-    // https://github.com/Polve/JavaBitcoindRpcClient/issues/88
-    RawTransaction rawTx = tx.raw();
-    if (rawTx == null || rawTx.vIn().isEmpty() || rawTx.vOut().isEmpty()) {
-      throw new BitcoinRPCException("Invalid Tx: " + txId);
-    }
-
     return tx;
   }
 
@@ -2489,7 +2482,8 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
 
     @Override
     public String category() {
-      return mapStr("category");
+      ArrayList<HashMap> details = (ArrayList<HashMap>) m.get("details");
+      return (String) details.get(0).get("category");
     }
 
     @Override
