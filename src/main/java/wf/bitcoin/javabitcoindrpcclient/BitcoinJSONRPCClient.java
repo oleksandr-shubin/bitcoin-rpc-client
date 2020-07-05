@@ -2477,7 +2477,8 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
 
     @Override
     public String address() {
-      return mapStr("address");
+      ArrayList<HashMap> details = (ArrayList<HashMap>) m.get("details");
+      return (String) details.get(0).get("address");
     }
 
     @Override

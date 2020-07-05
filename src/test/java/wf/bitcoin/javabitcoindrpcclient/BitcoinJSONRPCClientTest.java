@@ -183,4 +183,38 @@ public class BitcoinJSONRPCClientTest {
 
         assertEquals(category, "send");
     }
+
+    @Test
+    public void transactionAddressTest()
+    {
+        String result = "{\n" +
+                "  \"amount\": -1.00000000,\n" +
+                "  \"fee\": -0.00003320,\n" +
+                "  \"confirmations\": 0,\n" +
+                "  \"trusted\": true,\n" +
+                "  \"txid\": \"e59e42353c0f2f5565f7935547b35c4fa98ab574920cc76e5abbc0c60ae704a6\",\n" +
+                "  \"walletconflicts\": [\n" +
+                "  ],\n" +
+                "  \"time\": 1593556785,\n" +
+                "  \"timereceived\": 1593556785,\n" +
+                "  \"bip125-replaceable\": \"no\",\n" +
+                "  \"details\": [\n" +
+                "    {\n" +
+                "      \"address\": \"2NBFSxR84pvjGbw4LAE2mxzPEniCbHHJVEj\",\n" +
+                "      \"category\": \"send\",\n" +
+                "      \"amount\": -1.00000000,\n" +
+                "      \"vout\": 1,\n" +
+                "      \"fee\": -0.00003320,\n" +
+                "      \"abandoned\": false\n" +
+                "    }\n" +
+                "  ],\n" +
+                "  \"hex\": \"0200000000010189cf7cbed220051d2629a79f4b9eae178987ae680f7c38340cc8c8fb1d7a41640100000017160014e53ae3a87e6d00806ed75e27f6dfd2ac578f7c69feffffff0210161a1e0100000017a914676b8deb459d16b58d6f5b63c113a59067381f0e8700e1f5050000000017a914c57d16ce6f56128f5d530bd4e736ac45f6addfea870247304402206ae351a4a28cbf8f6d9d118d18aac6fa68074a990936aa6f2e7b6a3f25ac3f8402204059516e166ba6fdded053deb68130fb614a9cfea7f40fcde11d85f7b4f6f9c901210246d78f0fd3aba9bbbe24431cdcefd9cc9be1dc72d378985de3759e7d521cd6d100000000\"\n" +
+                "}\n";
+
+        client = new MyClientTest(false, "gettransaction", null, result);
+        BitcoindRpcClient.Transaction transaction = client.getTransaction("e59e42353c0f2f5565f7935547b35c4fa98ab574920cc76e5abbc0c60ae704a6");
+        String address = transaction.address();
+
+        assertEquals(address, "2NBFSxR84pvjGbw4LAE2mxzPEniCbHHJVEj");
+    }
 }
